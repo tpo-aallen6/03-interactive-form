@@ -9,13 +9,18 @@ const payMethod = document.querySelector('#payment') // may not need
 const creditCard = document.querySelector('#credit-card')
 const payPal = document.querySelector('#paypal')
 const bitCoin = document.querySelector('#bitcoin')
+const emailInput = document.querySelector('#email')
+const cardNumInput = document.querySelector('#cc-num')
+const zipInput = document.querySelector('#zip')
+const cvvInput = document.querySelector('#cvv')
+const form = document.querySelector('form[action="index.html"]')
+const checkboxes = document.querySelectorAll('input[type="checkbox"]')
 let totalCost = 0
 
 nameInput.focus()
 otherJobRole.style.display = 'none'
 colors.disabled = true
 document.querySelector('option[value="credit-card"]').selected = true
-// payMethod.children[1].selected = true
 payPal.style.display = 'none'
 bitCoin.style.display = 'none'
 
@@ -80,4 +85,39 @@ payMethod.addEventListener('change', (e) => {
     bitCoin.style.display = ''
     payPal.style.display = 'none'
   }
+})
+
+form.addEventListener('submit', (e) => {
+  const name = nameInput.value
+  const email = emailInput.value
+  const cardNum = cardNumInput.value
+  const zip = zipInput.value
+  const cvv = cvvInput.value
+  const nameTest = /^[a-z]+$/.test(name)
+  const emailTest = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email)
+  const cardNumTest = /^\d{13,16}$/.test(cardNum)
+  const zipTest = /^\d{5}$/.test(zip)
+  const cvvTest = /^\d{3}$/.test(cvv)
+
+  if (!nameTest || !emailTest || !cardNumTest || !zipTest || !cvvTest) {
+    e.preventDefault()
+  }
+
+  for (let i = 0; i < checkboxes.length; i++) {
+    if (!checkboxes[0].checked &&
+      !checkboxes[1].checked &&
+      !checkboxes[2].checked &&
+      !checkboxes[3].checked &&
+      !checkboxes[4].checked &&
+      !checkboxes[5].checked &&
+      !checkboxes[6].checked) {
+      e.preventDefault()
+    }
+  }
+
+  console.log(nameTest)
+  console.log(emailTest)
+  console.log(cardNumTest)
+  console.log(zipTest)
+  console.log(cvvTest)
 })
