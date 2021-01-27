@@ -62,6 +62,13 @@ design.addEventListener('change', (e) => {
 registerActivity.addEventListener('change', (e) => {
   const dataCost = +(e.target.getAttribute('data-cost'))
   const time = e.target.getAttribute('data-day-and-time')
+
+  if (e.target.checked === true) {
+    totalCost += dataCost
+  } else {
+    totalCost -= dataCost
+  }
+
   for (let i = 0; i < checkboxes.length; i++) {
     const timeUnavailable = checkboxes[i].getAttribute('data-day-and-time')
 
@@ -73,12 +80,6 @@ registerActivity.addEventListener('change', (e) => {
       } else {
         checkboxes[i].disabled = false
       }
-    }
-
-    if (e.target.checked === true) {
-      totalCost += dataCost
-    } else {
-      totalCost -= dataCost
     }
   }
   activityCost.innerHTML = `Total: $${totalCost}`
