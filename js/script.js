@@ -61,11 +61,25 @@ design.addEventListener('change', (e) => {
 
 registerActivity.addEventListener('change', (e) => {
   const dataCost = +(e.target.getAttribute('data-cost'))
-  // need to disable conflicting times for checkboxes for exceeds
-  if (e.target.checked === true) {
-    totalCost += dataCost
-  } else {
-    totalCost -= dataCost
+  const time = e.target.getAttribute('data-day-and-time')
+  for (let i = 0; i < checkboxes.length; i++) {
+    const timeUnavailable = checkboxes[i].getAttribute('data-day-and-time')
+
+    if (time === timeUnavailable && e.target !== checkboxes[i]) {
+      checkboxes[i].disabled = true
+
+      if (e.target.checked) {
+        checkboxes[i].disabled = true
+      } else {
+        checkboxes[i].disabled = false
+      }
+    }
+
+    if (e.target.checked === true) {
+      totalCost += dataCost
+    } else {
+      totalCost -= dataCost
+    }
   }
   activityCost.innerHTML = `Total: $${totalCost}`
 })
@@ -176,3 +190,5 @@ for (let i = 0; i < checkboxes.length; i++) {
     }
   })
 }
+
+// form validation in real time
