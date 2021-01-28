@@ -1,7 +1,7 @@
 /**
 * Treehouse Techdegree: Adam Allen
 * FSJS Project 3 - Interactive Form
-**/
+ */
 
 /**
  * Global variables
@@ -58,9 +58,11 @@ jobRole.addEventListener('change', (e) => {
 
 design.addEventListener('change', (e) => {
   colors.disabled = false
+
   if (e.target.value === 'js puns') {
     for (let i = 0; i < colors.length; i++) {
       const theme = colors[i].getAttribute('data-theme')
+
       if (theme === e.target.value) {
         colors[i].style.display = ''
         colors[i].selected = true
@@ -72,6 +74,7 @@ design.addEventListener('change', (e) => {
   } else if (e.target.value === 'heart js') {
     for (let i = 0; i < colors.length; i++) {
       const theme = colors[i].getAttribute('data-theme')
+
       if (theme === e.target.value) {
         colors[i].style.display = ''
         colors[i].selected = true
