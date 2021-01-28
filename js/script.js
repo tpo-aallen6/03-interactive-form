@@ -1,3 +1,12 @@
+/**
+* Treehouse Techdegree: Adam Allen
+* FSJS Project 3 - Interactive Form
+**/
+
+/**
+ * Global variables
+ */
+
 const nameInput = document.querySelector('#name')
 const jobRole = document.querySelector('#title')
 const otherJobRole = document.querySelector('#other-job-role')
@@ -17,12 +26,22 @@ const form = document.querySelector('form[action="index.html"]')
 const checkboxes = document.querySelectorAll('input[type="checkbox"]')
 let totalCost = 0
 
+/**
+ *  Default behavior on page load. Name field in focus, other job role
+ *  hidden, color field disabled, credit card set as default payment
+ *  method, paypal and bitcoin payment options hidden.
+ */
+
 nameInput.focus()
 otherJobRole.style.display = 'none'
 colors.disabled = true
 document.querySelector('option[value="credit-card"]').selected = true
 payPal.style.display = 'none'
 bitCoin.style.display = 'none'
+
+/**
+ * Displays the other job role field only when other job role is selected
+ */
 
 jobRole.addEventListener('change', (e) => {
   if (e.target.value === 'other') {
@@ -31,6 +50,11 @@ jobRole.addEventListener('change', (e) => {
     otherJobRole.style.display = 'none'
   }
 })
+
+/**
+ * Enables the color dropdown menu when a theme is selected
+ * Only the matching colors appear for the selected theme
+ */
 
 design.addEventListener('change', (e) => {
   colors.disabled = false
@@ -59,6 +83,13 @@ design.addEventListener('change', (e) => {
   }
 })
 
+/**
+ * Allows for the selection of activities
+ * Updates the total cost for each selected activity and
+ * prevents the selection of activities in the same time slot as
+ * a previously selected activity.
+ */
+
 registerActivity.addEventListener('change', (e) => {
   const dataCost = +(e.target.getAttribute('data-cost'))
   const time = e.target.getAttribute('data-day-and-time')
@@ -85,6 +116,10 @@ registerActivity.addEventListener('change', (e) => {
   activityCost.innerHTML = `Total: $${totalCost}`
 })
 
+/**
+ * Changes the visibility of payment options based on payment selection
+ */
+
 payMethod.addEventListener('change', (e) => {
   if (e.target.value === 'credit-card') {
     creditCard.style.display = ''
@@ -100,6 +135,37 @@ payMethod.addEventListener('change', (e) => {
     payPal.style.display = 'none'
   }
 })
+
+/**
+ * Enables focus on activities that are checked or tabbed through and
+ * blur on unchecked activities
+ */
+
+for (let i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener('focus', (e) => {
+    if (!e.target.checked) {
+      checkboxes[i].parentNode.className = 'focus'
+    } else {
+      e.target.parentNode.className = ''
+    }
+  })
+
+  checkboxes[i].addEventListener('blur', (e) => {
+    if (e.target.checked) {
+      checkboxes[i].parentNode.className = 'focus'
+    } else {
+      e.target.parentNode.className = ''
+    }
+  })
+}
+
+/**
+ * Form validation on submit to see if the required fields are
+ * properly filled in. Regex tests determine if there are any
+ * invalid required fields and displays or hides the error message
+ * accordingly. Submission only works when all required fields are
+ * properly filled in and at least one activity is selected.
+ */
 
 form.addEventListener('submit', (e) => {
   const name = nameInput.value
@@ -174,22 +240,4 @@ form.addEventListener('submit', (e) => {
   }
 })
 
-for (let i = 0; i < checkboxes.length; i++) {
-  checkboxes[i].addEventListener('focus', (e) => {
-    if (!e.target.checked) {
-      checkboxes[i].parentNode.className = 'focus'
-    } else {
-      e.target.parentNode.className = ''
-    }
-  })
-
-  checkboxes[i].addEventListener('blur', (e) => {
-    if (e.target.checked) {
-      checkboxes[i].parentNode.className = 'focus'
-    } else {
-      e.target.parentNode.className = ''
-    }
-  })
-}
-
-// form validation in real time
+// form validation in real time for exceeds !-- fix this
