@@ -13,15 +13,9 @@ const otherJobRole = document.querySelector('#other-job-role')
 const design = document.querySelector('#design')
 const colors = document.querySelector('#color')
 const registerActivity = document.querySelector('#activities')
-const activityCost = document.querySelector('#activities-cost')
-const payMethod = document.querySelector('#payment') // may not need
-const creditCard = document.querySelector('#credit-card')
+const payMethod = document.querySelector('#payment')
 const payPal = document.querySelector('#paypal')
 const bitCoin = document.querySelector('#bitcoin')
-const emailInput = document.querySelector('#email')
-const cardNumInput = document.querySelector('#cc-num')
-const zipInput = document.querySelector('#zip')
-const cvvInput = document.querySelector('#cvv')
 const form = document.querySelector('form[action="index.html"]')
 const checkboxes = document.querySelectorAll('input[type="checkbox"]')
 let totalCost = 0
@@ -96,6 +90,7 @@ design.addEventListener('change', (e) => {
 registerActivity.addEventListener('change', (e) => {
   const dataCost = +(e.target.getAttribute('data-cost'))
   const time = e.target.getAttribute('data-day-and-time')
+  const activityCost = document.querySelector('#activities-cost')
 
   if (e.target.checked === true) {
     totalCost += dataCost
@@ -124,6 +119,8 @@ registerActivity.addEventListener('change', (e) => {
  */
 
 payMethod.addEventListener('change', (e) => {
+  const creditCard = document.querySelector('#credit-card')
+
   if (e.target.value === 'credit-card') {
     creditCard.style.display = ''
     payPal.style.display = 'none'
@@ -172,8 +169,12 @@ for (let i = 0; i < checkboxes.length; i++) {
 
 form.addEventListener('submit', (e) => {
   const name = nameInput.value
+  const emailInput = document.querySelector('#email')
   const email = emailInput.value
+  const cardNumInput = document.querySelector('#cc-num')
   const cardNum = cardNumInput.value
+  const zipInput = document.querySelector('#zip')
+  const cvvInput = document.querySelector('#cvv')
   const zip = zipInput.value
   const cvv = cvvInput.value
   const nameTest = /^[a-z]+$/i.test(name)
