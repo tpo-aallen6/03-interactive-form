@@ -182,6 +182,7 @@ form.addEventListener('submit', (e) => {
   const cardNumTest = /^\d{13,16}$/.test(cardNum)
   const zipTest = /^\d{5}$/.test(zip)
   const cvvTest = /^\d{3}$/.test(cvv)
+  const checkboxArray = Array.from(checkboxes)
 
   if (!nameTest || !emailTest) {
     e.preventDefault()
@@ -230,17 +231,11 @@ form.addEventListener('submit', (e) => {
     }
   }
 
-  if (!checkboxes[0].checked &&
-    !checkboxes[1].checked &&
-    !checkboxes[2].checked &&
-    !checkboxes[3].checked &&
-    !checkboxes[4].checked &&
-    !checkboxes[5].checked &&
-    !checkboxes[6].checked) {
+  if (checkboxArray.some(checkbox => checkbox.checked)) {
+    document.querySelector('#activities-hint').style.display = 'none'
+  } else {
     e.preventDefault()
     document.querySelector('#activities-hint').style.display = 'block'
-  } else {
-    document.querySelector('#activities-hint').style.display = 'none'
   }
 })
 
