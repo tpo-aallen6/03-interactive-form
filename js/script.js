@@ -1,56 +1,47 @@
 /**
 * Treehouse Techdegree: Adam Allen
 * FSJS Project 3 - Interactive Form
- */
+**/
 
 /**
  * Global variables
- */
+ * checkboxes -> collection of all checkbox DOM elements
+**/
 
-const nameInput = document.querySelector('#name')
-const jobRole = document.querySelector('#title')
-const otherJobRole = document.querySelector('#other-job-role')
-const design = document.querySelector('#design')
-const colors = document.querySelector('#color')
-const registerActivity = document.querySelector('#activities')
-const payMethod = document.querySelector('#payment')
-const payPal = document.querySelector('#paypal')
-const bitCoin = document.querySelector('#bitcoin')
-const form = document.querySelector('form[action="index.html"]')
 const checkboxes = document.querySelectorAll('input[type="checkbox"]')
-let totalCost = 0
 
 /**
  *  Default behavior on page load. Name field in focus, other job role
  *  hidden, color field disabled, credit card set as default payment
  *  method, paypal and bitcoin payment options hidden.
- */
+**/
 
-nameInput.focus()
-otherJobRole.style.display = 'none'
-colors.disabled = true
+document.querySelector('#name').focus()
+document.querySelector('#other-job-role').style.display = 'none'
+document.querySelector('#color').disabled = true
 document.querySelector('option[value="credit-card"]').selected = true
-payPal.style.display = 'none'
-bitCoin.style.display = 'none'
+document.querySelector('#paypal').style.display = 'none'
+document.querySelector('#bitcoin').style.display = 'none'
 
 /**
  * Displays the other job role field only when other job role is selected
- */
+**/
 
-jobRole.addEventListener('change', (e) => {
+document.querySelector('#title').addEventListener('change', (e) => {
   if (e.target.value === 'other') {
-    otherJobRole.style.display = ''
+    document.querySelector('#other-job-role').style.display = ''
   } else {
-    otherJobRole.style.display = 'none'
+    document.querySelector('#other-job-role').style.display = 'none'
   }
 })
 
 /**
  * Enables the color dropdown menu when a theme is selected
  * Only the matching colors appear for the selected theme
- */
+**/
 
-design.addEventListener('change', (e) => {
+document.querySelector('#design').addEventListener('change', (e) => {
+  const colors = document.querySelector('#color')
   colors.disabled = false
 
   if (e.target.value === 'js puns') {
@@ -85,23 +76,21 @@ design.addEventListener('change', (e) => {
  * Updates the total cost for each selected activity and
  * prevents the selection of activities in the same time slot as
  * a previously selected activity.
- */
+**/
 
-registerActivity.addEventListener('change', (e) => {
-  const dataCost = +(e.target.getAttribute('data-cost'))
-  const time = e.target.getAttribute('data-day-and-time')
-  const activityCost = document.querySelector('#activities-cost')
+document.querySelector('#activities').addEventListener('change', (e) => {
+  const activityTimeSlot = e.target.getAttribute('data-day-and-time')
+  let totalCost = 0
 
-  if (e.target.checked === true) {
-    totalCost += dataCost
-  } else {
-    totalCost -= dataCost
-  }
+  document.querySelectorAll('#activities :checked')
+    .forEach(activity => {
+      totalCost += parseInt(activity.attributes['data-cost'].value)
+    })
 
   for (let i = 0; i < checkboxes.length; i++) {
     const timeUnavailable = checkboxes[i].getAttribute('data-day-and-time')
 
-    if (time === timeUnavailable && e.target !== checkboxes[i]) {
+    if (activityTimeSlot === timeUnavailable && e.target !== checkboxes[i]) {
       checkboxes[i].disabled = true
 
       if (e.target.checked) {
@@ -111,15 +100,17 @@ registerActivity.addEventListener('change', (e) => {
       }
     }
   }
-  activityCost.innerHTML = `Total: $${totalCost}`
+  document.querySelector('#activities-cost').innerHTML = `Total: $${totalCost}`
 })
 
 /**
  * Changes the visibility of payment options based on payment selection
- */
+**/
 
-payMethod.addEventListener('change', (e) => {
+document.querySelector('#payment').addEventListener('change', (e) => {
   const creditCard = document.querySelector('#credit-card')
+  const payPal = document.querySelector('#paypal')
+  const bitCoin = document.querySelector('#bitcoin')
 
   if (e.target.value === 'credit-card') {
     creditCard.style.display = ''
@@ -139,7 +130,7 @@ payMethod.addEventListener('change', (e) => {
 /**
  * Enables focus on activities that are checked or tabbed through and
  * blur on unchecked activities
- */
+**/
 
 for (let i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('focus', (e) => {
@@ -165,10 +156,10 @@ for (let i = 0; i < checkboxes.length; i++) {
  * invalid required fields and displays or hides the error message
  * accordingly. Submission only works when all required fields are
  * properly filled in and at least one activity is selected.
- */
+**/
 
-form.addEventListener('submit', (e) => {
-  const name = nameInput.value
+document.querySelector('form[action="index.html"]').addEventListener('submit', (e) => {
+  const name = document.querySelector('#name').value
   const emailInput = document.querySelector('#email')
   const email = emailInput.value
   const cardNumInput = document.querySelector('#cc-num')
